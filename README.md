@@ -17,3 +17,6 @@ Stop and delete volumes: `docker compose down -v`
 - http://localhost:8080/cinema/signin
 - http://localhost:8080/cinema/signup
 - http://localhost:8080/cinema/profile
+
+---
+![terminal](https://github.com/hyoghurt/web_application/raw/master/terminal.png)
