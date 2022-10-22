@@ -1,0 +1,31 @@
+.errormsg {
+    color: #ea4747;
+    font-size: 12px;
+}
+
+.my-form {
+    padding: 15px;
+    width: 330px;
+    margin-top: 100px;
+}
+
+.my-form .form-floating:focus-within {
+    z-index: 2;
+}
+
+.input-t {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.input-mid {
+    margin-bottom: -1px;
+    border-radius: 0;
+}
+
+.input-b {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+

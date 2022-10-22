@@ -11,7 +11,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.UUID;
 
 @WebServlet(name = "images", value = "/images/*")
 @MultipartConfig(
@@ -60,7 +59,7 @@ public class Images extends HttpServlet {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             } else {
                 resp.getOutputStream().write(image);
-                resp.setContentType(imageService.getMimeById(UUID.fromString(split[len - 1])));
+                resp.setContentType(imageService.getMimeById(split[len - 1]));
             }
         }
     }

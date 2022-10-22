@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 
 @WebFilter(value = {"/images/*"})
 public class ImagesFilter implements Filter {
@@ -36,7 +35,7 @@ public class ImagesFilter implements Filter {
         if (user == null) {
             resp.sendError(HttpServletResponse.SC_FORBIDDEN);
         } else if (!split[len - 1].equals("images")
-                && !imageService.authImages(user.getId(), UUID.fromString(split[len - 1]))) {
+                && !imageService.authImages(user.getId(), split[len - 1])) {
 
             resp.sendError(HttpServletResponse.SC_FORBIDDEN);
         }

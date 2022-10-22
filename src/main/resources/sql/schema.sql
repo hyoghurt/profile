@@ -1,7 +1,4 @@
-DROP TABLE IF EXISTS users CASCADE;
-DROP SEQUENCE IF EXISTS global_seq CASCADE;
-
-CREATE SEQUENCE global_seq START WITH 100;
+CREATE SEQUENCE IF NOT EXISTS global_seq START WITH 100;
 
 CREATE TABLE IF NOT EXISTS users
 (
@@ -9,7 +6,8 @@ CREATE TABLE IF NOT EXISTS users
     first_name      VARCHAR(32)         NOT NULL,
     last_name       VARCHAR(32)         NOT NULL,
     password        VARCHAR(128)        NOT NULL,
-    phone           VARCHAR(16) UNIQUE  NOT NULL
+    phone           VARCHAR(16)         NOT NULL,
+    email           VARCHAR(128) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS signin_users (
@@ -20,7 +18,7 @@ CREATE TABLE IF NOT EXISTS signin_users (
 );
 
 CREATE TABLE IF NOT EXISTS images (
-    id              uuid PRIMARY KEY,
+    id              VARCHAR(64) PRIMARY KEY,
     user_id         BIGINT,
     name            VARCHAR,
     size            BIGINT,

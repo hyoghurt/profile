@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Part;
@@ -21,14 +22,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@PropertySource("file:${webapp.root}/WEB-INF/application.properties")
 public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     @Value("${path.file.upload}")
     private String pathFileUpload;
 
     @Override
-    public boolean authImages(Long userId, UUID uuid) {
-        return imageRepository.existByIdAndUserId(uuid, userId);
+    public boolean authImages(Long userId, String fileId) {
+        return imageRepository.existByIdAndUserId(fileId, userId);
     }
 
     @Override
@@ -41,7 +43,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String getMimeById(UUID id) {
+    public String getMimeById(String id) {
         return imageRepository.findMimeById(id);
     }
 
@@ -66,7 +68,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             Image image = new Image();
 
-            image.setId(UUID.randomUUID());
+            image.setId(UUID.randomUUID() + "." + part.getContentType().split("/")[1]);
             image.setUserId(userId);
             image.setName(part.getSubmittedFileName());
             image.setMime(part.getContentType());
@@ -79,25 +81,25 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    private void saveFileLocal(Part part, UUID uuid) throws IOException {
+    private void saveFileLocal(Part part, String id) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(pathFileUpload);
         if (!pathFileUpload.endsWith("/"))
             stringBuilder.append("/");
-        stringBuilder.append(uuid);
+        stringBuilder.append(id);
 
         Path path = Paths.get(stringBuilder.toString());
         if (!path.getParent().toFile().exists())
             Files.createDirectories(path.getParent());
         part.write(stringBuilder.toString());
-        log.info("create file local - success: " + stringBuilder);
+        log.info("create file local - success: {}", stringBuilder);
     }
 
     private void saveImageRepo(Image image) {
         if (imageRepository.save(image) == 1) {
-            log.info("save image db - success: " + image.getId());
+            log.info("save image db - success: {}", image.getId());
         } else {
-            log.error("save image db - fail: " + image.getId());
+            log.error("save image db - fail: {}", image.getId());
         }
     }
 }

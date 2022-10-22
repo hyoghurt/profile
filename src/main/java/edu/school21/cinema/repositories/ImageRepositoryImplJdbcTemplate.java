@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class ImageRepositoryImplJdbcTemplate implements ImageRepository {
@@ -21,9 +20,9 @@ public class ImageRepositoryImplJdbcTemplate implements ImageRepository {
     }
 
     @Override
-    public boolean existByIdAndUserId(UUID id, Long userId) {
+    public boolean existByIdAndUserId(String fileId, Long userId) {
         String QUERY = "SELECT COUNT(*) FROM images WHERE id = ? AND user_id = ?";
-        return jdbcTemplate.queryForObject(QUERY, Integer.class, id, userId) == 1;
+        return jdbcTemplate.queryForObject(QUERY, Integer.class, fileId, userId) == 1;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class ImageRepositoryImplJdbcTemplate implements ImageRepository {
             String SELECT_IMAGES_BY_PHONE = "SELECT * FROM images WHERE user_id = ?";
             return jdbcTemplate.query(SELECT_IMAGES_BY_PHONE,
                     (rs, rowNum) -> new Image(
-                            rs.getObject("id", java.util.UUID.class),
+                            rs.getString("id"),
                             rs.getLong("user_id"),
                             rs.getString("name"),
                             rs.getLong("size"),
@@ -44,7 +43,7 @@ public class ImageRepositoryImplJdbcTemplate implements ImageRepository {
     }
 
     @Override
-    public String findMimeById(UUID id) {
+    public String findMimeById(String id) {
         try {
             String QUERY = "SELECT mime FROM images WHERE id = ?";
             return jdbcTemplate.queryForObject(QUERY, String.class, id);

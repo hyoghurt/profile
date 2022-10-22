@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User signIn(String phone, String password, String ip, Timestamp date) {
-        User findUser = userRepository.findByPhone(phone);
+    public User signIn(String email, String password, String ip, Timestamp date) {
+        User findUser = userRepository.findByEmail(email);
         if (findUser != null && passwordEncoder.matches(password, findUser.getPassword())) {
             signInUserService.save(new SignIn(null, findUser.getId(), date, ip));
             return findUser;

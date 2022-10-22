@@ -6,5 +6,5 @@ import java.sql.Timestamp;
 
 public interface UserService {
     int signUp(User user);
-    User signIn(String phone, String password, String ip, Timestamp date);
+    User signIn(String email, String password, String ip, Timestamp date);
 }

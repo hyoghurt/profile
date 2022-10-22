@@ -2,6 +2,7 @@ package edu.school21.cinema.servlets;
 
 import edu.school21.cinema.models.User;
 import edu.school21.cinema.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 
 import javax.servlet.ServletConfig;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 @WebServlet(name = "signIn", value = "/signin")
+@Slf4j
 public class SignIn extends HttpServlet {
     private UserService userService;
     private final String pathFileJsp = "/WEB-INF/jsp/";
@@ -33,10 +35,12 @@ public class SignIn extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        User findUser = userService.signIn(req.getParameter("phone"),
+        User findUser = userService.signIn(req.getParameter("email"),
                 req.getParameter("password"),
                 req.getRemoteAddr(),
                 new Timestamp(System.currentTimeMillis()));
+
+        log.info("post signin {}", findUser);
 
         if (findUser == null) {
             req.setAttribute("errorMsg", "Incorrect login or password");

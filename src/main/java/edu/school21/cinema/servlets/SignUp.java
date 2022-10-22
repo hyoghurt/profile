@@ -42,13 +42,14 @@ public class SignUp extends HttpServlet {
         user.setLastName(req.getParameter("last_name"));
         user.setPhone(req.getParameter("phone"));
         user.setPassword(passwordEncoder.encode(req.getParameter("password")));
+        user.setEmail(req.getParameter("email"));
 
         int status = userService.signUp(user);
 
         if (status == 1) {
             resp.sendRedirect("signin");
         } else {
-            req.setAttribute("errorMsg", "This phone number already exists");
+            req.setAttribute("errorMsg", "This email address already exists");
             req.getRequestDispatcher(pathFileJsp + "signUp.jsp").forward(req, resp);
         }
     }
