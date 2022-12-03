@@ -1,14 +1,16 @@
 # profile
 Java 8  
-Java Servlet API  
-Spring JDBC  
-Registration and authentication  
-WAR archive -> Tomcat 9  
+servlet, registration and authentication   
+spring jdbc   
+jsp, bootstrap  
+tomcat 9  
+postgresql
 
 ---
 
-Start: `docker compose up --build -d`  
-Stop and delete volumes: `docker compose down -v`  
+`docker-compose.yml` содержит приложение(сборка проекта осуществляется докером) и базу данных.  
+Запустить проект: `docker compose up --build -d`    
+Остановить и удалить volume: `docker compose down -v` 
 
 ---
 
